@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -11,6 +12,9 @@ const userSchema = new mongoose.Schema({
     },
     profile: String
 })
+
+
+
 
 const User = mongoose.model('User', userSchema)
 
