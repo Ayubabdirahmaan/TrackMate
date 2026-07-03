@@ -13,7 +13,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 app.use(notfound)
 app.use(errorHandler)
 app.get("/", (req, res) => {
-  res.send("hello world this page test");
+  res.send("hello world this page test page");
 });
 
 const mongooseUri =
