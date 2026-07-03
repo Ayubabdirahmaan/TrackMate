@@ -5,6 +5,13 @@ dotenv.config();
 const PORT = process.env.PORT;
 import mongoose from "mongoose";
 app.use(express.json());
+
+import {notfound} from './middlewares/notfound.js'
+import { errorHandler } from "./middlewares/errorHandler.js";
+
+// middlewares
+app.use(notfound)
+app.use(errorHandler)
 app.get("/", (req, res) => {
   res.send("hello world this page test");
 });
