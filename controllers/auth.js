@@ -14,3 +14,15 @@ export const register = async (req, res, next) => {
     next(error);
   }
 };
+
+export const login = async (req, res, next) => {
+    let {email, password} = req.body
+    try {
+        const user = await User.findOne({email})
+        if(!user) return res.status(401).json({message: 'Invalid email or password'})
+            res.json(user.name)
+        
+    } catch (error) {
+        next(error)
+    }
+}
