@@ -9,6 +9,7 @@ import userRegister from './/Routes/auth.js'
 import userLogin from './/Routes/auth.js'
 import getAllUsers from './/Routes/auth.js'
 import adminDashbaord from './/Routes/admin.js'
+import transaction from './/Routes/transactions.js'
 
 import {notfound} from './middlewares/notfound.js'
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -18,6 +19,7 @@ app.use('/api/auth', userRegister )
 app.use('/api/auth', userLogin )
 app.use('/api/auth', getAllUsers )
 app.use('/api/admin', adminDashbaord )
+app.use('/api/transaction', transaction )
 
 app.get("/", (req, res) => {
   res.send("hello world this page test page");
