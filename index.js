@@ -12,6 +12,8 @@ import adminDashbaord from './/Routes/admin.js'
 import transaction from './/Routes/transactions.js'
 import getTransaction from './/Routes/transactions.js'
 import updateTransaction from './/Routes/transactions.js'
+import deleteTransaction from './/Routes/transactions.js'
+
 
 import {notfound} from './middlewares/notfound.js'
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -24,6 +26,7 @@ app.use('/api/admin', adminDashbaord )
 app.use('/api/transaction', transaction )
 app.use('/api/transaction', getTransaction )
 app.use('/api/transaction', updateTransaction )
+app.use('/api/transaction', deleteTransaction )
 
 app.get("/", (req, res) => {
   res.send("hello world this page test page");
