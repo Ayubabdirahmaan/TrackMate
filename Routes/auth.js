@@ -4,8 +4,8 @@ import { validate } from '../middlewares/validateZode.js'
 import { createUserSchema } from '../schemas/userSchemas.js'
 const router = express.Router()
 
-router.post('/register', validate(createUserSchema), register)
-router.post('/login', login)
-router.post('/getAllUsers', getAllUsers)
+router.post('/', validate(createUserSchema), register)
+router.post('/', login)
+router.post('/', getAllUsers)
 
 export default router

@@ -8,7 +8,6 @@ export const createTransaction = async (req, res, next) => {
         next(error)
     }
 }
-
 export const getTransaction = async (req, res, next) => {
     try {
         const transaction = await Transaction.find({ createdBy: req.user._id }).sort({ createdBy: -1 })
@@ -18,7 +17,6 @@ export const getTransaction = async (req, res, next) => {
         next(error)
     }
 }
-
 export const updateTransaction = async (req, res, next) => {
     try {
         const transaction = await Transaction.findOneAndUpdate({ _id: req.params.id, createdBy: req.user._id }, req.body, { new: true })
