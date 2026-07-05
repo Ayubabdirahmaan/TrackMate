@@ -1,0 +1,16 @@
+export const validate = (schema) => (req, res, next) => {
+  const result = schema.safeParse(req.body)
+
+  if (!result.success) {
+    const formatted = result.error.format();
+    return res.status(400).json({
+      success: false,
+      message: "validate failed",
+      errors: Object.keys(formatted).map((failed) => ({
+        failed,
+        message: formatted[failed]?._errors?.[0] || "invalid input",
+      })),
+    });
+  }
+  next();
+};
