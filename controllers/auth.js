@@ -24,8 +24,18 @@ export const login = async (req, res, next) => {
     if (!user || !(await user.comparePassword(password)))
       return res.status(401).json({ message: "Invalid email or password" });
     const token = generateToken(user._id);
-    res.json({ token, user });
+    res.json({ token });
   } catch (error) {
     next(error);
   }
 };
+
+export  const getAllUsers = async (req, res, next) => {
+  try {
+    const user = await User.find()
+    res.json(user)
+    
+  } catch (error) {
+    next(error)
+  }
+}
