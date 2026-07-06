@@ -17,6 +17,8 @@ export const getTransaction = async (req, res, next) => {
         next(error)
     }
 }
+
+
 export const updateTransaction = async (req, res, next) => {
     try {
         const transaction = await Transaction.findOneAndUpdate({ _id: req.params.id, createdBy: req.user._id }, req.body, { new: true })
@@ -36,3 +38,51 @@ export const deleteTransaction = async (req, res, next) => {
         next(error)
     }
 }
+export const getMonthlySummary = async (req, res, next) => {
+    try {
+        const now = new Date();
+        const year = Number(req.query.year) || now.getFullYear();
+        const month = Number(req.query.month) || (now.getMonth() + 1);
+
+        const start = new Date(year, month - 1, 1);
+        const end = new Date(year, month, 1);
+
+        const summary = await Transaction.aggregate([
+            {
+                $match: {
+                    createdBy: req.user._id,
+                    createdAt: {
+                        $gte: start,
+                        $lt: end,
+                    },
+                },
+            },
+
+            {
+                $group: {
+                    _id: "$type",
+                    total: { $sum: "$amount" },
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+        console.log("summary desc: ", summary)
+
+        let income = 0;
+        let expense = 0;
+
+        summary.forEach((item) => {
+            if (item._id === "income") income = item.total;
+            if (item._id === "expense") expense = item.total;
+        });
+
+        res.json({
+            income,
+            expense,
+            balance: income - expense,
+            totalTransactions: income + expense,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
