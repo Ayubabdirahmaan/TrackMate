@@ -14,6 +14,7 @@ import getTransaction from './/Routes/transactions.js'
 import updateTransaction from './/Routes/transactions.js'
 import deleteTransaction from './/Routes/transactions.js'
 import getMonthlySummary from './/Routes/transactions.js'
+import uploadFile from './/Routes/upload.js'
 
 
 import {notfound} from './middlewares/notfound.js'
@@ -29,6 +30,7 @@ app.use('/api/transaction', getTransaction )
 app.use('/api/transaction', updateTransaction )
 app.use('/api/transaction', deleteTransaction )
 app.use('/api/transaction', getMonthlySummary )
+app.use('/api/upload', uploadFile )
 
 app.get("/", (req, res) => {
   res.send("hello world this page test page");
