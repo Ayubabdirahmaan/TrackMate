@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 const PORT = process.env.PORT;
 import mongoose from "mongoose";
-app.use(express.json());
+import morgan from "morgan";
+import cors from 'cors'
+import helmet from "helmet";
 import userRegister from './/Routes/auth.js'
 import userLogin from './/Routes/auth.js'
 import getAllUsers from './/Routes/auth.js'
@@ -19,7 +21,14 @@ import uploadFile from './/Routes/upload.js'
 
 import {notfound} from './middlewares/notfound.js'
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { limiter } from "./middlewares/rateLimiter.js";
+app.use(express.json());
 
+app.use(cors({
+  origin: ['http://localhost:5000']
+}))
+app.use(limiter)
+app.use(helmet())
 // middlewares
 app.use('/api/auth', userRegister )
 app.use('/api/auth', userLogin )
@@ -38,6 +47,10 @@ app.get("/", (req, res) => {
 
 app.use(notfound)
 app.use(errorHandler)
+
+if(process.env.NODE_ENV == "development") {
+  app.use(morgan('dev'))
+}
 
 const mongooseUri =
   process.env.NODE_ENV == "development"
