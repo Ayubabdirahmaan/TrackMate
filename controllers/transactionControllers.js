@@ -41,6 +41,7 @@ export const deleteTransaction = async (req, res, next) => {
 export const getMonthlySummary = async (req, res, next) => {
     try {
         const now = new Date();
+        console.log(now);
         const year = Number(req.query.year) || now.getFullYear();
         const month = Number(req.query.month) || (now.getMonth() + 1);
 
