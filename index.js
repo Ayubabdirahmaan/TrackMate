@@ -46,7 +46,7 @@ if (process.env.NODE_ENV == "development") {
 
 const mongooseUri =
   process.env.NODE_ENV == "production"
-    ? MONGO_URI_PRO
+    ? process.env.MONGO_URI_PRO
     : process.env.MONGO_URI_DEV 
 
 mongoose
