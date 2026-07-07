@@ -18,11 +18,11 @@ import { limiter } from "./middlewares/rateLimiter.js";
 import { swaggerSpec } from "./utils/swagger.js";
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: ["http://localhost:5000", "http://trackmate-zdhw.onrender.com"], 
-  }),
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5000", "http://trackmate-zdhw.onrender.com"], 
+//   }),
+// );
 app.use(limiter);
 app.use(helmet());
 // middlewares
