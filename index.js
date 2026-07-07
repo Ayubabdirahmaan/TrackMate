@@ -48,7 +48,7 @@ const mongooseUri =
   process.env.NODE_ENV == "production"
     ? process.env.MONGO_URI_PRO
     : process.env.MONGO_URI_DEV 
-
+console.log("your process.env" ,process.env.NODE_ENV);
 mongoose
   .connect(mongooseUri)
   .then(() => console.log("✅ MongoDB connected Successfully"))
