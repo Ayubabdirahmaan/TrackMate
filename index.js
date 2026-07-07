@@ -8,16 +8,10 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 import swaggerUi from 'swagger-ui-express';
-import userRegister from ".//Routes/auth.js";
-import userLogin from ".//Routes/auth.js";
-import getAllUsers from ".//Routes/auth.js";
-import adminDashbaord from ".//Routes/admin.js";
-import transaction from ".//Routes/transactions.js";
-import getTransaction from ".//Routes/transactions.js";
-import updateTransaction from ".//Routes/transactions.js";
-import deleteTransaction from ".//Routes/transactions.js";
-import getMonthlySummary from ".//Routes/transactions.js";
-import uploadFile from ".//Routes/upload.js";
+import authRoutes from "./Routes/auth.js";
+import adminDashboard from "./Routes/admin.js";
+import transactionRoutes from "./Routes/transactions.js";
+import uploadFile from "./Routes/upload.js";
 import { notfound } from "./middlewares/notfound.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { limiter } from "./middlewares/rateLimiter.js";
@@ -32,15 +26,9 @@ app.use(
 app.use(limiter);
 app.use(helmet());
 // middlewares
-app.use("/api/auth", userRegister);
-app.use("/api/auth", userLogin);
-app.use("/api/auth", getAllUsers);
-app.use("/api/admin", adminDashbaord);
-app.use("/api/transaction", transaction);
-app.use("/api/transaction", getTransaction);
-app.use("/api/transaction", updateTransaction);
-app.use("/api/transaction", deleteTransaction);
-app.use("/api/transaction", getMonthlySummary);
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminDashboard);
+app.use("/api/transaction", transactionRoutes);
 app.use("/api/upload", uploadFile);
 
 app.get("/", (req, res) => {
