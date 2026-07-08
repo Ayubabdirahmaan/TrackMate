@@ -1,5 +1,5 @@
 import express from "express";
-import { createTransaction, deleteTransaction, getTransaction, getMonthlySummary, updateTransaction } from "../controllers/transactionControllers.js";
+import { createTransaction, deleteTransaction, getTransaction, getMonthlySummary, updateTransaction } from '../controllers/transactionControllers.js'
 import { protect } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validateZode.js";
 import { TrasnactionValidationSchema } from "../schemas/transactionSchema.js";
