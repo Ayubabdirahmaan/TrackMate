@@ -14,17 +14,16 @@ import api from "@/lib/api/apiClient";
 import { LoaderCircle } from "lucide-react";
 import { extractErrorMessage } from "@/utils/errorUtils";
 import { useNavigate } from "react-router";
+import useAuthStore from "@/lib/store/authStore";
 
 const LoginForm = () => {
-
-            const navigate = useNavigate()
-
+  const [isLoading, setIsLoading] = useState();
+ const navigate = useNavigate()
+        const {setAuth} = useAuthStore()
 
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
-    password: "",
-    confirmPassword: "",
   });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,13 +35,19 @@ const LoginForm = () => {
   };
   const [error, setError] = useState(null);
 
-  const registerMutation = useMutation({
-    mutationFn: async (userData) => {
-      const response = await api.post("/auth/register", userData);
+  const loginMutation = useMutation({
+    mutationFn: async (credentials) => {
+      const response = await api.post("/auth/login", credentials);
       return response.data;
     },
     onSuccess: (data) => {
-      console.log(data);
+      if(data.token) {
+        const user = data.user
+        const token = data.token
+        setAuth(user, token)
+        navigate('/dashboard')
+        console.log(user);
+      }
     },
     onError: (error) => {
       console.log("error", error);
@@ -54,18 +59,14 @@ const LoginForm = () => {
     e.preventDefault();
     setError(null);
 
-    if (!formValues.name || !formValues.email || !formValues.password) {
+    if (!formValues.email || !formValues.password) {
       setError("All fields are required");
       return;
     }
 
-    if (formValues.password !== formValues.confirmPassword) {
-      setError("Password do not match");
-      return;
-    }
+ 
 
-    registerMutation.mutate({
-      name: formValues.name,
+    loginMutation.mutate({
       email: formValues.email,
       password: formValues.password,
     });
@@ -114,19 +115,19 @@ const LoginForm = () => {
           
             <div className="py-6">
               <Button type="submit" className={"w-full cursor-pointer"}>
-                {registerMutation.isPending ? (
+                {isLoading ? (
                   <span>
-                    <LoaderCircle /> Creating account...
+                    <LoaderCircle /> Loading....
                   </span>
                 ) : (
-                  "Create Account"
+                  "Login Account"
                 )}
               </Button>
             </div>
           </CardContent>
           <CardFooter className={"flex justify-center pt-0"}>
             <div className="text-center text-sm">
-              Already have an account?
+             Don't have a account?
               <a
               onClick={() => navigate('/register')}
                 className="text-primary hover:underline cursor-pointer"
