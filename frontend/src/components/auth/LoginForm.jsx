@@ -15,7 +15,7 @@ import { LoaderCircle } from "lucide-react";
 import { extractErrorMessage } from "@/utils/errorUtils";
 import { useNavigate } from "react-router";
 
-const RegisterForm = () => {
+const LoginForm = () => {
 
             const navigate = useNavigate()
 
@@ -41,8 +41,8 @@ const RegisterForm = () => {
       const response = await api.post("/auth/register", userData);
       return response.data;
     },
-    onSuccess: () => {
-      navigate('/login')
+    onSuccess: (data) => {
+      console.log(data);
     },
     onError: (error) => {
       console.log("error", error);
@@ -88,16 +88,7 @@ const RegisterForm = () => {
               </div>
             )}
 
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-left">Full name</div>
-            </div>
-            <Input
-              name="name"
-              placeholder="John Doe"
-            required
-              value={formValues.name}
-              onChange={handleInputChange}
-            />
+           
             <div className="space-y-2">
               <div className="text-sm font-medium text-left">Email</div>
             </div>
@@ -120,19 +111,7 @@ const RegisterForm = () => {
               type={'password'}
             required
             />
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-left">
-                Confirm Password
-              </div>
-            </div>
-            <Input
-              name="confirmPassword"
-              placeholder="**************"
-              value={setFormValues.confirmPassword}
-              onChange={handleInputChange}
-                type={'password'}
-            required
-            />
+          
             <div className="py-6">
               <Button type="submit" className={"w-full cursor-pointer"}>
                 {registerMutation.isPending ? (
@@ -149,11 +128,11 @@ const RegisterForm = () => {
             <div className="text-center text-sm">
               Already have an account?
               <a
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/register')}
                 className="text-primary hover:underline cursor-pointer"
                 href="#"
               >
-                Sign in
+                Sign up
               </a>
             </div>
           </CardFooter>
@@ -163,4 +142,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
