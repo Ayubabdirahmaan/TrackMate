@@ -11,8 +11,15 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/lib/api/apiClient";
+import { LoaderCircle } from "lucide-react";
+import { extractErrorMessage } from "@/utils/errorUtils";
+import { useNavigate } from "react-router";
 
 const RegisterForm = () => {
+
+            const navigate = useNavigate()
+
+
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -32,20 +39,36 @@ const RegisterForm = () => {
   const registerMutation = useMutation({
     mutationFn: async (userData) => {
       const response = await api.post("/auth/register", userData);
-      console.log(response);
       return response.data;
     },
-    onSuccess: () => {
-      console.log(response.data);
+    onSuccess: (data) => {
+      console.log(data);
     },
     onError: (error) => {
       console.log("error", error);
+      setError(extractErrorMessage(error));
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
+
+    if (!formValues.name || !formValues.email || !formValues.password) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (formValues.password !== formValues.confirmPassword) {
+      setError("Password do not match");
+      return;
+    }
+
+    registerMutation.mutate({
+      name: formValues.name,
+      email: formValues.email,
+      password: formValues.password,
+    });
   };
 
   return (
@@ -57,27 +80,34 @@ const RegisterForm = () => {
         <CardDescription className={"text-center"}>
           Enter your details to register
         </CardDescription>
-        <form>
+        <form onSubmit={handleSubmit}>
           <CardContent>
+            {error && (
+              <div className="p-3 text-center text-destructive text-sm rounded-md">
+                {error}
+              </div>
+            )}
+
             <div className="space-y-2">
               <div className="text-sm font-medium text-left">Full name</div>
             </div>
             <Input
               name="name"
-              placeholder="john Doe"
-              value={setFormValues.name}
+              placeholder="John Doe"
+            required
+              value={formValues.name}
               onChange={handleInputChange}
-              required
             />
             <div className="space-y-2">
               <div className="text-sm font-medium text-left">Email</div>
             </div>
             <Input
-              name="eamil"
+              name="email"
               placeholder="john@gmail.com"
-              value={setFormValues.email}
+              value={formValues.email}
               onChange={handleInputChange}
-              required
+               
+            required
             />
             <div className="space-y-2">
               <div className="text-sm font-medium text-left">Password</div>
@@ -85,9 +115,10 @@ const RegisterForm = () => {
             <Input
               name="password"
               placeholder="**************"
-              value={setFormValues.password}
+              value={formValues.password}
               onChange={handleInputChange}
-              required
+              type={'password'}
+            required
             />
             <div className="space-y-2">
               <div className="text-sm font-medium text-left">
@@ -95,15 +126,22 @@ const RegisterForm = () => {
               </div>
             </div>
             <Input
-              name="name"
+              name="confirmPassword"
               placeholder="**************"
               value={setFormValues.confirmPassword}
               onChange={handleInputChange}
-              required
+                type={'password'}
+            required
             />
             <div className="py-6">
-              <Button className={"w-full cursor-pointer"}>
-                Create account
+              <Button type="submit" className={"w-full cursor-pointer"}>
+                {registerMutation.isPending ? (
+                  <span>
+                    <LoaderCircle /> Creating account...
+                  </span>
+                ) : (
+                  "Create Account"
+                )}
               </Button>
             </div>
           </CardContent>
@@ -111,6 +149,7 @@ const RegisterForm = () => {
             <div className="text-center text-sm">
               Already have an account?
               <a
+              onClick={() => navigate('/login')}
                 className="text-primary hover:underline cursor-pointer"
                 href="#"
               >
