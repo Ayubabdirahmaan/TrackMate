@@ -24,7 +24,7 @@ export const login = async (req, res, next) => {
     if (!user || !(await user.comparePassword(password)))
       return res.status(401).json({ message: "Invalid email or password" });
     const token = generateToken(user._id);
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     next(error);
   }

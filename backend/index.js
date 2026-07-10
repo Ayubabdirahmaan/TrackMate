@@ -18,11 +18,11 @@ import { limiter } from "./middlewares/rateLimiter.js";
 import { swaggerSpec } from "./utils/swagger.js";
 app.use(express.json());
 
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5000", "http://trackmate-zdhw.onrender.com"], 
-//   }),
-// );
+app.use(
+  cors({
+    origin: ["http://localhost:5000", "http://localhost:5173", "http://trackmate-zdhw.onrender.com"], 
+  }),
+);
 app.use(limiter);
 app.use(helmet());
 // middlewares
@@ -46,8 +46,8 @@ if (process.env.NODE_ENV == "development") {
 
 const mongooseUri =
   process.env.NODE_ENV == "production"
-    ? process.env.MONGO_URI_PRO
-    : process.env.MONGO_URI_DEV 
+    ? process.env.MONGO_URI_DEV 
+    : process.env.MONGO_URI_PRO 
 console.log("your process.env" ,process.env.NODE_ENV);
 mongoose
   .connect(mongooseUri)
