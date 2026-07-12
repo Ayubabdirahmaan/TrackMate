@@ -9,4 +9,13 @@ const api =axios.create({
         'Content-Type' : 'application/json'
     }
 })
+
+    // Interceptors to add the authorization header
+    api.interceptors.request.use(config => {
+        if(token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+    })
+
 export default api

@@ -3,14 +3,18 @@ import useAuthStore from "@/lib/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React, { useEffect } from "react";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 const ProtectRoute = ({ children }) => {
+
+
   const { user, setAuth, clearAuth, token } = useAuthStore();
+
+   const location = useLocation()
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
-      const response = await api.get("/auth/dashboard");
+      const response = await api.get("/admin/dashboard");
       return response.data;
     },
     retry: 1,
@@ -21,6 +25,13 @@ const ProtectRoute = ({ children }) => {
       clearAuth();
     }
   }, [isError, data, setAuth, token]);
+        // success case
+         useEffect(() => {
+    if (isError) {
+     setAuth(user, token)
+    }
+  }, [isSuccess, data, setAuth, token]);
+
 
   if (isLoading) {
     return (
@@ -31,12 +42,12 @@ const ProtectRoute = ({ children }) => {
   }
 
   if (isError) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{from: location}} replace />;
   }
 
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" state={{ from: location }} replace />;
+  // }
 
   return children;
 };
