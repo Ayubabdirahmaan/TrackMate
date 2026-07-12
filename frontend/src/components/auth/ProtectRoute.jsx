@@ -11,7 +11,7 @@ const ProtectRoute = ({ children }) => {
   const { user, setAuth, clearAuth, token } = useAuthStore();
 
    const location = useLocation()
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  const { data, error, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
       const response = await api.get("/admin/dashboard");
@@ -24,11 +24,11 @@ const ProtectRoute = ({ children }) => {
     if (isError) {
       clearAuth();
     }
-  }, [isError, data, setAuth, token]);
+  }, [isError, error, clearAuth]);
         // success case
          useEffect(() => {
-    if (isError) {
-     setAuth(user, token)
+    if (isSuccess & data) {
+     setAuth(data, token)
     }
   }, [isSuccess, data, setAuth, token]);
 
@@ -45,9 +45,9 @@ const ProtectRoute = ({ children }) => {
     return <Navigate to="/login" state={{from: location}} replace />;
   }
 
-  // if (!user) {
-  //   return <Navigate to="/login" state={{ from: location }} replace />;
-  // }
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   return children;
 };
