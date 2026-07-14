@@ -15,7 +15,7 @@ const router = express.Router();
  *       200:
  *         description: Current user info
  */
-router.get("/dashboard", protect, authorize("admin"), (req, res) => {
+router.get("/dashboard", protect, authorize("user"), (req, res) => {
   res.json(`Welcome to the admin dashboard, ${req.user.name}`);
 });
 
