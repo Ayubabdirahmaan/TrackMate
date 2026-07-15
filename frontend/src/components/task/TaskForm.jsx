@@ -67,7 +67,7 @@ const TaskForm = ({ open = true, onOpenChange }) => {
             <Input
               name="title"
               id="title"
-              value={formValues.title}
+              value={setFormValues.title}
               placeholder="Enter transaction title"
               required
               onClick={handleInputChange}
@@ -78,7 +78,7 @@ const TaskForm = ({ open = true, onOpenChange }) => {
             <Input
               name="amount"
               id="amount"
-              value={formValues.amount}
+              value={setFormValues.amount}
               placeholder="Enter transaction amount"
               required
               onClick={handleInputChange}
@@ -98,11 +98,36 @@ const TaskForm = ({ open = true, onOpenChange }) => {
               </SelectContent>
             </Select>
           </div>
+           <div className="space-y-2">
+            <Label>Category *</Label>
+            <Input
+              name="category"
+              id="category"
+              value={setFormValues.amount}
+              placeholder="Enter transaction category"
+              required
+              onClick={handleInputChange}
+            />
+          </div>
+            <div className="space-y-2">
+            <Label>Due Date *</Label>
+            <Input
+              name="dueDate"
+              id="dueDate"
+              value={setFormValues.dueDate}
+              placeholder="Enter transaction category"
+              required
+              onClick={handleInputChange}
+            />
+          </div>
+          
         </form>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={handleCencel}>
             cencel
           </Button>
+
+          <Button type='submit'>Create</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
