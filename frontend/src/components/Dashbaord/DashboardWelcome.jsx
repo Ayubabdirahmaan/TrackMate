@@ -9,7 +9,7 @@ const DashboardWelcome = ({onCreateTask, showCreateForm}) => {
           <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
               <div className='space-y-2 flex flex-col items-start'>
                 <CardTitle className={'text-2xl'}>Welcome back!</CardTitle>
-                <CardDescription className={'text-base'}>Here's what's happing with trasnsaction today.</CardDescription>
+                <CardDescription className={'text-base'}>View your recent transactions and manage your finances with ease.</CardDescription>
 
               </div>
               <Button onClick={onCreateTask}>Create New Transaction</Button>
