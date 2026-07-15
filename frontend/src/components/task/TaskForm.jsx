@@ -97,7 +97,6 @@ const TaskForm = ({ open = true, onOpenChange }) => {
         };
         createMutation.mutate(taskData);
     };
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className={"sm:max-w-[500px]"}>
