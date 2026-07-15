@@ -1,5 +1,7 @@
 import DashbaordHeader from '@/components/Dashbaord/DashbaordHeader'
 import DashboardWelcome from '@/components/Dashbaord/DashboardWelcome'
+import TaskForm from '@/components/task/TaskForm'
+
 import React, { useState } from 'react'
 
 const Dashbaord = () => {
@@ -11,22 +13,31 @@ const Dashbaord = () => {
     setShowCreateForm(true)
     setEdtingTask(null)
   }
-
+  const handleFormClose = () => {
+    setShowCreateForm(false),
+      setEdtingTask(null)
+  }
 
   return (
-  
-  <div className='min-h-screen bg-background'>
+
+    <div className='min-h-screen bg-background'>
       {/* header */}
       <DashbaordHeader />
 
       {/* main */}
       <main className='max-full px-4 py-8 space-y-6'>
-            <DashboardWelcome
-            showCreateForm={showCreateForm}
-            onCreateTask={handleCreateTask}
-             />
+        <DashboardWelcome
+          showCreateForm={showCreateForm}
+          onCreateTask={handleCreateTask}
+        />
       </main>
-  </div>
+      {/* task dialog form */}
+
+      <TaskForm
+        open={showCreateForm || !!edtingTask}
+        onOpenChange={handleFormClose}
+      />
+    </div>
   )
 }
 
